@@ -3,8 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>GO-QUEST
-  </title>
+  <title>GO-QUEST</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
     tailwind.config = {
@@ -31,25 +30,42 @@
   </script>
   <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
   {% load static %}
+  <style>
+    video.bg-video {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      z-index: -1;
+    }
+  </style>
 </head>
-<body class="bg-cover bg-center bg-no-repeat min-h-screen flex items-center justify-center bg-white dark:bg-gray-900 text-gray-800 dark:text-white transition-colors duration-300"
-      style="background-image: url('https://images.unsplash.com/photo-1507525428034-b723cf961d3e');">
+
+<body class="min-h-screen flex items-center justify-center text-gray-800 dark:text-white transition-colors duration-300">
+
+  <!-- Background Video -->
+  <video class="bg-video" autoplay muted loop>
+    <source src="{% static 'images/logvid.webm' %}" type="video/webm">
+    Your browser does not support the video tag.
+  </video>
 
   <!-- Theme Toggle Button -->
   <button onclick="toggleTheme()"
-    class="absolute top-5 right-5 px-4 py-2 text-sm rounded-lg font-semibold transition duration-300 shadow-md"
+    class="absolute top-5 right-5 px-4 py-2 text-sm rounded-lg font-semibold transition duration-300 shadow-md bg-white text-gray-800 dark:bg-gray-800 dark:text-white"
     id="theme-toggle-btn">
     <span id="toggle-text">Dark Mode</span>
   </button>
 
   <!-- Login Container -->
-  <div class="bg-white dark:bg-gray-800 bg-opacity-90 backdrop-blur-md shadow-2xl rounded-2xl p-8 w-full max-w-md animate-fade-in">
+  <!-- <div class="bg-white dark:bg-gray-800 bg-opacity-90 backdrop-blur-md shadow-2xl rounded-2xl p-8 w-full max-w-md animate-fade-in z-10"> -->
+    <div class="bg-white dark:bg-gray-800 bg-opacity-40 dark:bg-opacity-40 backdrop-blur-md border border-white/30 shadow-2xl rounded-2xl p-8 w-full max-w-md animate-fade-in z-10">
 
-
-    <img src="{% static 'images/logo1.jpg' %}" class="mx-auto mb-4" alt="GO-QUEST">
+    <img src="{% static 'images/logo1.jpg' %}" class="mx-auto mb-4 w-32" alt="GO-QUEST Logo">
+    
     <div class="text-center mb-6">
-
-    <h2 class="text-2xl font-bold">Welcome Back</h2>
+      <h2 class="text-2xl font-bold">Welcome Back</h2>
       <p class="text-sm text-gray-500 dark:text-gray-300">Login to continue your journey</p>
     </div>
 
@@ -69,13 +85,12 @@
 
       <button type="submit"
         class="w-full bg-blue-600 hover:bg-blue-700 text-white py-2 rounded-lg font-semibold transition duration-300">
-       <!-- <a href="/index/"> Login</a> -->
        Login
       </button>
 
       <div class="flex justify-between text-sm mt-3">
         <a href="/admin/" class="hover:underline">Admin Login</a>
-        <a href="/signup" class="hover:underline">Create account</a>
+        <a href="/reg" class="hover:underline">Create account</a>
       </div>
     </form>
   </div>
@@ -90,12 +105,10 @@
       html.classList.toggle('dark');
 
       if (isDark) {
-        // Going from dark -> light
         toggleText.textContent = 'Dark Mode';
         button.classList.remove('bg-gray-800', 'text-white');
         button.classList.add('bg-white', 'text-gray-800');
       } else {
-        // Going from light -> dark
         toggleText.textContent = 'Light Mode';
         button.classList.remove('bg-white', 'text-gray-800');
         button.classList.add('bg-gray-800', 'text-white');
@@ -104,5 +117,3 @@
   </script>
 </body>
 </html>
-
-

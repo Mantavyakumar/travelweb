@@ -1,11 +1,10 @@
 from django.shortcuts import render,HttpResponse,redirect
 from home.models import Contact   
-from .forms import ContactForm
+from .forms import ContactForm,RegistrationForm
 from .models import Contact as ContactModel 
 from django.contrib.auth.models import User
-from django.contrib.auth import authenticate,login
-from django.contrib.auth import logout
-
+from django.contrib.auth import authenticate,login,logout
+from django.contrib import messages
 
   
 # Create your views here.
@@ -22,6 +21,7 @@ def loginuser(request):
         if user is not None:
          print(username,password)
          login(request,user)
+         messages.success(request, f'Hey {username}, welcome to GO QUEST!')
          return redirect("/index/")
          
         else:
@@ -39,24 +39,12 @@ def logoutuser(request):
 def about(request):
     return render(request, "about.html")
  
-
-# def contact(request):
-    # if request.method == "POST":
-    #     name = request.POST.get('name')
-    #     email = request.POST.get('email')
-    #     subject = request.POST.get('subject')
-        
-    #     new_contact = Contact(name=name,email=email,subject=subject)
-    #     new_contact.save()
-    #     return render(request, "contact.html", {'success': True})
-    # return render(request, "contact.html")
+ 
 
 def locations(request):
     return render(request, "locations.html")
 def register(request):
     return render(request, "register.html")
- 
- 
 def contact(request):
     if request.method == "POST":
         form = ContactForm(request.POST)
@@ -67,7 +55,43 @@ def contact(request):
         form = ContactForm()
     
     return render(request, 'contact1.html', {'form': form})
+def reg(request):
+    if request.method == 'POST':
+        username = request.POST['username']
+        password = request.POST['password']
 
- 
+        if User.objects.filter(username=username).exists():
+            messages.error(request, 'Username already exists. Try another.')
+        else:
+            # Create user
+            user = User.objects.create_user(username=username, password=password)
+            user.save()
+
+            # Authenticate and login
+            user = authenticate(request, username=username, password=password)
+            if user is not None:
+                login(request, user)
+                 
+                messages.success(request, f'Welcome, {username}! You are now logged in.')
+                return redirect('/index/')  # Change this to your desired landing page
+               
+            else:
+                messages.error(request, 'Something went wrong with login. Try manually.')
+
+    return render(request, 'reg.html')
+
+
+
+
+def register_view(request):
+    if request.method == 'POST':
+        form = RegistrationForm(request.POST)
+        if form.is_valid():
+            # handle form data here, like saving to DB or emailing
+            return render(request, 'success.html')  # or redirect
+    else:
+        form = RegistrationForm()
+    
+    return render(request, 'register.html', {'form': form})
 
  
