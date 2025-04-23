@@ -38,7 +38,8 @@ def logoutuser(request):
 
 def about(request):
     return render(request, "about.html")
- 
+def itenary(request):
+    return render(request,"itenary.html")
  
 
 def locations(request):
